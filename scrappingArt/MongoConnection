@@ -1,0 +1,41 @@
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+import json
+
+uri = "mongodb+srv://marouaamal2002:OpHSXGS8MWWZbJnq@clusterbi.zruer.mongodb.net/?retryWrites=true&w=majority&appName=ClusterBI"
+
+client = MongoClient(uri, server_api=ServerApi('1'))
+
+try:
+    client.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
+
+database_name = "Scrapping"  
+collection_name = "blockchain_acm"
+
+client = MongoClient(uri)
+db = client[database_name]
+collection = db[collection_name]
+
+# Load the new data from JSON
+with open('Blockchain.json', 'r', encoding='utf-8') as f:
+    article_data = json.load(f)
+
+# Ensure data is a list for batch processing
+if not isinstance(article_data, list):
+    article_data = [article_data]
+
+# Insert only new records
+new_records = []
+for record in article_data:
+    # Use a unique field for deduplication (e.g., 'doi')
+    if not collection.find_one({"doi": record.get("doi")}):  # Replace 'doi' with your unique field
+        new_records.append(record)
+
+if new_records:
+    collection.insert_many(new_records)
+    print(f"{len(new_records)} new records have been inserted into MongoDB.")
+else:
+    print("No new records to insert. All data already exists in MongoDB.")

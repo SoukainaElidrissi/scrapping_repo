@@ -1,0 +1,26 @@
+<!-- Header Section -->
+<header style="background-color: #1976d2; color: white; padding: 10px; text-align: center;">
+  <h1>Big Data & BI Framework</h1>
+</header>
+
+<!-- Title Section -->
+<section style="margin: 20px; text-align: center;">
+  <h2>Data Visualization</h2>
+  <p>Interactive Charts Representing the Collected and Analyzed Data</p>
+</section>
+<section>
+  <h3>Top Keywords by Frequency</h3>
+  <p>
+    This chart visualizes the top keywords, showcasing their frequency and weight. The size of each word is proportional to its frequency, highlighting the most important terms in the data set.
+  </p>
+</section>
+
+<!-- Chart Placeholder -->
+<div id="chartdiv" style="width: 80%; height: 500px; margin: auto; border: 1px solid #ddd;">
+  <!-- Your chart will be rendered here -->
+</div>
+
+<h1>{{ data?.message }}</h1>
+
+<router-outlet></router-outlet>
+<app-chart></app-chart>
